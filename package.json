@@ -1,0 +1,36 @@
+{
+	"name": "@bus-tracker/gtfs-processor",
+	"description": "GTFS processor for the Bus Tracker application.",
+	"version": "0.1.0",
+	"author": "Kevin BIOJOUT <coucou@kevinbioj.fr>",
+	"license": "GPL-3.0-only",
+	"main": "dist/index.js",
+	"type": "module",
+	"scripts": {
+		"build": "tsc",
+		"check": "biome check",
+		"check:ci": "biome ci --error-on-warnings",
+		"start": "node --enable-source-maps --expose-gc .",
+		"test": "vitest --run .",
+		"test:watch": "vitest ."
+	},
+	"packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/decompress": "^4.2.7",
+		"@types/node": "^22.7.7",
+		"@types/papaparse": "^5.3.15",
+		"typescript": "^5.6.3",
+		"vitest": "^2.1.3"
+	},
+	"dependencies": {
+		"croner": "^9.0.0",
+		"decompress": "^4.2.1",
+		"draftlog": "^1.0.13",
+		"gtfs-realtime-bindings": "^1.1.1",
+		"p-limit": "^6.1.0",
+		"papaparse": "^5.4.1",
+		"redis": "^4.7.0",
+		"temporal-polyfill": "^0.2.5"
+	}
+}
