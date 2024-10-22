@@ -168,10 +168,11 @@ export async function computeVehicleJourneys(source: Source) {
 
 			const networkRef = source.getNetworkRef(journey, vehiclePosition.vehicle);
 			const operatorRef = source.getOperatorRef?.(journey, vehiclePosition.vehicle);
-			const vehicleRef =
+			const vehicleRef = `${networkRef}:${operatorRef ?? ""}:Vehicle:${
 				source.getVehicleRef?.(vehiclePosition.vehicle) ??
 				vehiclePosition.vehicle.label ??
-				vehiclePosition.vehicle.id;
+				vehiclePosition.vehicle.id
+			}`;
 
 			const tripRef =
 				typeof journey !== "undefined"
@@ -226,14 +227,11 @@ export async function computeVehicleJourneys(source: Source) {
 				},
 				journeyRef:
 					typeof journey !== "undefined" ? `${networkRef}:ServiceJourney:${tripRef}` : undefined,
-				datedJourneyRef:
-					typeof journey !== "undefined"
-						? `${networkRef}:DatedServiceJourney:${tripRef}:${journey.date}`
-						: undefined,
 				networkRef,
 				operatorRef,
 				vehicleRef,
-				updatedAt: now,
+				serviceDate: journey?.date,
+				updatedAt: now.toZonedDateTimeISO(source.gtfs.agencies.values().next().value!.timeZone),
 			});
 		}
 
@@ -250,10 +248,11 @@ export async function computeVehicleJourneys(source: Source) {
 
 			const networkRef = source.getNetworkRef(journey);
 			const operatorRef = source.getOperatorRef?.(journey, vehicleDescriptor);
-			const vehicleRef =
+			const vehicleRef = `${networkRef}:${operatorRef ?? ""}:Vehicle:${
 				source.getVehicleRef?.(vehicleDescriptor) ??
 				vehicleDescriptor?.label ??
-				vehicleDescriptor?.id;
+				vehicleDescriptor?.id
+			}`;
 
 			const tripRef = source.mapTripRef?.(journey.trip.id) ?? journey.trip.id;
 
@@ -292,11 +291,11 @@ export async function computeVehicleJourneys(source: Source) {
 				}),
 				position: journey.guessPosition(now),
 				journeyRef: `${networkRef}:ServiceJourney:${tripRef}`,
-				datedJourneyRef: `${networkRef}:DatedServiceJourney:${tripRef}:${journey.date}`,
 				networkRef,
 				operatorRef,
 				vehicleRef,
-				updatedAt: now,
+				serviceDate: journey.date,
+				updatedAt: now.toZonedDateTimeISO(source.gtfs.agencies.values().next().value!.timeZone),
 			});
 		}
 

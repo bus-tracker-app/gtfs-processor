@@ -38,8 +38,8 @@ export type VehicleJourney = {
 	position: JourneyPosition;
 	networkRef: string;
 	journeyRef?: string;
-	datedJourneyRef?: string;
 	operatorRef?: string;
 	vehicleRef?: string;
-	updatedAt: Temporal.Instant;
+	serviceDate?: Temporal.PlainDate;
+	updatedAt: Temporal.ZonedDateTime;
 };
