@@ -168,11 +168,10 @@ export async function computeVehicleJourneys(source: Source) {
 
 			const networkRef = source.getNetworkRef(journey, vehiclePosition.vehicle);
 			const operatorRef = source.getOperatorRef?.(journey, vehiclePosition.vehicle);
-			const vehicleRef = `${networkRef}:${operatorRef ?? ""}:Vehicle:${
+			const vehicleRef =
 				source.getVehicleRef?.(vehiclePosition.vehicle) ??
 				vehiclePosition.vehicle.label ??
-				vehiclePosition.vehicle.id
-			}`;
+				vehiclePosition.vehicle.id;
 
 			const tripRef =
 				typeof journey !== "undefined"
@@ -229,7 +228,10 @@ export async function computeVehicleJourneys(source: Source) {
 					typeof journey !== "undefined" ? `${networkRef}:ServiceJourney:${tripRef}` : undefined,
 				networkRef,
 				operatorRef,
-				vehicleRef,
+				vehicleRef:
+					typeof vehicleRef !== "undefined"
+						? `${networkRef}:${operatorRef ?? ""}:Vehicle:${vehicleRef}`
+						: undefined,
 				serviceDate: journey?.date,
 				updatedAt: now.toZonedDateTimeISO(source.gtfs.agencies.values().next().value!.timeZone),
 			});
@@ -248,11 +250,10 @@ export async function computeVehicleJourneys(source: Source) {
 
 			const networkRef = source.getNetworkRef(journey);
 			const operatorRef = source.getOperatorRef?.(journey, vehicleDescriptor);
-			const vehicleRef = `${networkRef}:${operatorRef ?? ""}:Vehicle:${
+			const vehicleRef =
 				source.getVehicleRef?.(vehicleDescriptor) ??
 				vehicleDescriptor?.label ??
-				vehicleDescriptor?.id
-			}`;
+				vehicleDescriptor?.id;
 
 			const tripRef = source.mapTripRef?.(journey.trip.id) ?? journey.trip.id;
 
@@ -293,7 +294,10 @@ export async function computeVehicleJourneys(source: Source) {
 				journeyRef: `${networkRef}:ServiceJourney:${tripRef}`,
 				networkRef,
 				operatorRef,
-				vehicleRef,
+				vehicleRef:
+					typeof vehicleRef !== "undefined"
+						? `${networkRef}:${operatorRef ?? ""}:Vehicle:${vehicleRef}`
+						: undefined,
 				serviceDate: journey.date,
 				updatedAt: now.toZonedDateTimeISO(source.gtfs.agencies.values().next().value!.timeZone),
 			});
